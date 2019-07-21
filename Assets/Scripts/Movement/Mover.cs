@@ -1,31 +1,26 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 
-public class Mover : MonoBehaviour {
-    NavMeshAgent agent;     // Reference to this object's NavMeshAgent for navigating/moving object around.
-    Animator animator;
-    Ray controller_ray;
+namespace RPG.Movement {
+    public class Mover : MonoBehaviour {
+        NavMeshAgent agent;     // Reference to this object's NavMeshAgent for navigating/moving object around.
+        Animator animator;      // Reference to this object's Animator for renderring animation clip.
 
-    void Start() {
-        agent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
-    }
-
-    // Update is called once per frame
-    void Update() {
-        if (Input.GetMouseButton(0))
-            Move();
-        UpdataAnimator();
-    }
-
-    private void Move() {
-        controller_ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(controller_ray, out RaycastHit target, 50)) {
-            agent.SetDestination(target.point);
+        void Start() {
+            agent = GetComponent<NavMeshAgent>();
+            animator = GetComponent<Animator>();
         }
-    }
-    private void UpdataAnimator() {
-        float speed = transform.InverseTransformDirection(agent.velocity).z;
-        animator.SetFloat("speed", speed);
+
+        // Update is called once per frame
+        void Update() {
+            UpdateAnimator();
+        }
+
+        public void MoveToPoint(Vector3 point) { agent.SetDestination(point); }
+
+        private void UpdateAnimator() {
+            float speed = transform.InverseTransformDirection(agent.velocity).z;
+            animator.SetFloat("speed", speed);
+        }
     }
 }
