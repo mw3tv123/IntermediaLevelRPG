@@ -25,7 +25,7 @@ public class PlayerCamera : MonoBehaviour {
 
     void LateUpdate() {
         // Move camera forward Player.
-        transform.position = target.position;
+        transform.position = target.position + new Vector3(0, 1.5f, 0);
         cam.transform.position = transform.position - offset * cameraDistance;
         //cam.transform.LookAt(transform.position);
     }
