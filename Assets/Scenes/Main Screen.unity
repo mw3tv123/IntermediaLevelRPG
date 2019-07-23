@@ -10591,7 +10591,7 @@ PrefabInstance:
     - target: {fileID: 361844039855275776, guid: d12fb74ec79e8984d8afa214313ce24a,
         type: 3}
       propertyPath: m_Name
-      value: Follow Camera
+      value: Player Camera
       objectReference: {fileID: 0}
     - target: {fileID: 361844039855275790, guid: d12fb74ec79e8984d8afa214313ce24a,
         type: 3}
@@ -10671,7 +10671,7 @@ PrefabInstance:
     - target: {fileID: 361844039855275791, guid: d12fb74ec79e8984d8afa214313ce24a,
         type: 3}
       propertyPath: minDistance
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 361844039855275791, guid: d12fb74ec79e8984d8afa214313ce24a,
         type: 3}
@@ -10702,11 +10702,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1604306469}
     m_Modifications:
-    - target: {fileID: 2885547522882778263, guid: 3b155cbbfea5eca449449619fccbfff4,
-        type: 3}
-      propertyPath: m_Name
-      value: Enemy
-      objectReference: {fileID: 0}
     - target: {fileID: 3301135478086928814, guid: 3b155cbbfea5eca449449619fccbfff4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -10762,7 +10757,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 2885547522882778263, guid: 3b155cbbfea5eca449449619fccbfff4,
+        type: 3}
+      propertyPath: m_Name
+      value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 7203049347494671576, guid: 3b155cbbfea5eca449449619fccbfff4,
+        type: 3}
+      propertyPath: interactableRadius
+      value: 2
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 7203049347494671576, guid: 3b155cbbfea5eca449449619fccbfff4, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3b155cbbfea5eca449449619fccbfff4, type: 3}
 --- !u!1001 &5258756847578998507
 PrefabInstance:
@@ -10830,6 +10836,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 4203942327666494289, guid: 2a6126768cd6ae04d82be0be97847827,
+        type: 3}
+      propertyPath: interactableRadius
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2a6126768cd6ae04d82be0be97847827, type: 3}
