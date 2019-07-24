@@ -3,6 +3,9 @@ using UnityEngine;
 using UnityEngine.AI;
 
 namespace RPG.Movement {
+    /// <summary>
+    /// Movement control class for move an object.
+    /// </summary>
     public class Mover : MonoBehaviour, IAction {
         /// <summary>
         /// An interface where it hold basic movement of all object (Player, NPC).
@@ -20,11 +23,13 @@ namespace RPG.Movement {
             UpdateAnimator();
         }
 
+        // Use to intercept between action (stop attack then move and via versal).
         public void StartMovement(Vector3 point) {
             GetComponent<ActionScheduler>().StartAction(this);
             MoveToPoint(point);
         }
 
+        // Move this object to an point in the world space.
         public void MoveToPoint(Vector3 point) {
             agent.SetDestination(point);
             agent.isStopped = false;
@@ -36,7 +41,8 @@ namespace RPG.Movement {
             animator.SetFloat("speed", speed);
         }
 
-        public void Cancel() {
+        // Cancel all movement action.
+        public void CancelThisAction() {
             agent.isStopped = true;
         }
     }

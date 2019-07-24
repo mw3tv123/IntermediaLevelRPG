@@ -7,7 +7,7 @@ namespace RPG.Core {
         public void StartAction(IAction action) {
             if (lastAction == action) return;
             if (lastAction != null)
-                lastAction.Cancel();
+                lastAction.CancelThisAction();
             lastAction = action;
         }
     }
