@@ -20,6 +20,8 @@ namespace RPG.Movement {
 
         // Update is called once per frame
         void Update() {
+            // Navigation system only avalable when this object alive.
+            agent.enabled = !GetComponent<Health>().IsDeath;
             UpdateAnimator();
         }
 

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace RPG.Combat {
+namespace RPG.Core {
     /// <summary>
     /// This contain Health behavior of an object (Player, Monster...)
     /// </summary>
@@ -21,7 +21,7 @@ namespace RPG.Combat {
         // Make an object take damage.
         public void TakeDamage(float damage) {
             // When this object already dead, we do nothing.
-            if (isDeath) return;
+            if (IsDeath) return;
 
             currentHealth = Mathf.Clamp(currentHealth - damage, 0, maxHealth);
             if (currentHealth == 0)
@@ -31,9 +31,15 @@ namespace RPG.Combat {
         // Active Death animation, remove collider to prevent future action on this object
         // and set "death" to True to mark this is actually "dead".
         public void Die() {
-            isDeath = true;
+            IsDeath = true;
             GetComponent<Animator>().SetTrigger("death");
-            GetComponent<CapsuleCollider>().enabled = false;
+
+            // Disable control of this object on Death Event.
+            GetComponent<ActionScheduler>().CancelCurrentAction();
+
+            // Remove this object Collider so that Player's RayCasting won't obstruct by this object collider.
+            if (GetComponent<CapsuleCollider>() != null)
+                GetComponent<CapsuleCollider>().enabled = false;
         }
     }
 }

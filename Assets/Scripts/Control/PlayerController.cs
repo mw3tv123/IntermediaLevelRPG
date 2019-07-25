@@ -1,4 +1,5 @@
 ﻿using RPG.Combat;
+using RPG.Core;
 using RPG.Movement;
 using UnityEngine;
 
@@ -7,15 +8,19 @@ namespace RPG.Control {
     public class PlayerController : MonoBehaviour {
         Mover mover;
         Fighter combat;
+        Health health;
 
         // Start is called before the first frame update
         void Start() {
             mover = GetComponent<Mover>();
             combat = GetComponent<Fighter>();
+            health = GetComponent<Health>();
         }
 
         // Update is called once per frame
         void Update() {
+            // If this Player is DEAD, he can't control anything else...
+            if (health.IsDeath) return;
             if (Interact()) return;
             if (Move()) return;
         }
@@ -28,7 +33,7 @@ namespace RPG.Control {
                 if (target == null)
                     continue;
                 if (Input.GetMouseButtonDown(0))
-                    combat.Attack(target);
+                    combat.Attack(target.gameObject);
                 return true;
             }
             return false;

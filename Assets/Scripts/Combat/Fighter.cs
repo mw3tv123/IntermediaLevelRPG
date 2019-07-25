@@ -4,19 +4,22 @@ using UnityEngine;
 
 namespace RPG.Combat {
     // An Fighter class.
+    [RequireComponent(typeof(ActionScheduler))]
     public class Fighter : MonoBehaviour, IAction {
         [SerializeField] float attackRange = 2f;
         [SerializeField] float attackSpeed = 1f;
         [SerializeField] float damage = 10f;
 
-        Transform target;
+        [SerializeField] Transform target;
+
         Animator animator;
         Mover mover;
-        float attackCooldown = 0f;
+        float attackCooldown;
 
         void Start() {
             animator = GetComponent<Animator>();
             mover = GetComponent<Mover>();
+            attackCooldown = attackSpeed;
         }
 
         void Update() {
@@ -37,7 +40,7 @@ namespace RPG.Combat {
         }
 
         // Set our target to deal damage.
-        public void Attack(CombatTarget combatTarget) {
+        public void Attack(GameObject combatTarget) {
             GetComponent<ActionScheduler>().StartAction(this);
             target = combatTarget.transform;
         }
