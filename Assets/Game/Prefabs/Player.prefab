@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 460debb17c3a19841ad9ca3889128593, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxSpeed: 6
 --- !u!114 &-5243973760079034010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39,6 +40,7 @@ MonoBehaviour:
   attackRange: 1.6
   attackSpeed: 1
   damage: 10
+  target: {fileID: 0}
 --- !u!114 &142445447935705883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51,6 +53,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c85537f9ba88e954ca4569e0ba76d7be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  runSpeedFraction: 1
+--- !u!136 &2137771600
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1087925175123517473}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.3
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1001 &3390267735625162612
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -137,22 +154,22 @@ PrefabInstance:
     - target: {fileID: 5258756848214847644, guid: 2a6126768cd6ae04d82be0be97847827,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5258756848214847644, guid: 2a6126768cd6ae04d82be0be97847827,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.9983048
       objectReference: {fileID: 0}
     - target: {fileID: 5258756848214847644, guid: 2a6126768cd6ae04d82be0be97847827,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5258756848214847644, guid: 2a6126768cd6ae04d82be0be97847827,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: -0.05820312
       objectReference: {fileID: 0}
     - target: {fileID: 5258756848214847644, guid: 2a6126768cd6ae04d82be0be97847827,
         type: 3}
@@ -167,7 +184,7 @@ PrefabInstance:
     - target: {fileID: 5258756848214847644, guid: 2a6126768cd6ae04d82be0be97847827,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 186.67299
       objectReference: {fileID: 0}
     - target: {fileID: 5258756848214847644, guid: 2a6126768cd6ae04d82be0be97847827,
         type: 3}

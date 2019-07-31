@@ -13,6 +13,8 @@ namespace RPG.Control {
         [SerializeField] PatrolRoute patrolRoute;
         [SerializeField] int lastWaypointIndex = 0;
 
+        [Range(0, 1), SerializeField] float patrolSpeedFraction = 0.2f;
+
         Fighter fighter;
         GameObject player;
 
@@ -85,7 +87,7 @@ namespace RPG.Control {
 
             // Stay at each waypoint at a period time.
             if (timeSinceArrivedAtWaypoint > suspicionTime)
-                GetComponent<Mover>().StartMovement(nextPosition);
+                GetComponent<Mover>().StartMovement(nextPosition, patrolSpeedFraction);
         }
 
         // TODO: Check logic again in this code.

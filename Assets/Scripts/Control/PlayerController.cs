@@ -6,6 +6,8 @@ using UnityEngine;
 namespace RPG.Control {
     [RequireComponent(typeof(Movement.Mover))]
     public class PlayerController : MonoBehaviour {
+        [Range(0, 1), SerializeField] float runSpeedFraction = 1f;
+
         Mover mover;
         Fighter combat;
         Health health;
@@ -44,7 +46,7 @@ namespace RPG.Control {
             if (Input.GetMouseButton(0)) {
                 Ray controller_ray = GetRayToMouse();
                 if (Physics.Raycast(controller_ray, out RaycastHit target, 50)) {
-                    mover.StartMovement(target.point);
+                    mover.StartMovement(target.point, runSpeedFraction);
                 }
                 return true;
             }

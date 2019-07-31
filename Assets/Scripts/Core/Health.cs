@@ -5,8 +5,11 @@ namespace RPG.Core {
     /// This contain Health behavior of an object (Player, Monster...)
     /// </summary>
     public class Health : MonoBehaviour {
-        [SerializeField] float maxHealth = 100f;
-        [SerializeField] float currentHealth;
+        [Header("Heaths Settings")]
+        [Range(50, 125), SerializeField] float maxHealth = 100f;
+        float currentHealth;
+
+        [Header("Status")]
         [SerializeField] bool isDeath = false;
 
         public bool IsDeath {

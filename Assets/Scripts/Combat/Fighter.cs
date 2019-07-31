@@ -31,7 +31,7 @@ namespace RPG.Combat {
             if (target.GetComponent<Health>().IsDeath) return;
             // If our target is far away from our attack range...
             if (Vector3.Distance(target.position, transform.position) > attackRange)
-                mover.MoveToPoint(target.position);
+                mover.MoveToPoint(target.position, 1f);
             // If target in attack range...
             else {
                 mover.CancelThisAction();
@@ -49,6 +49,7 @@ namespace RPG.Combat {
         public void CancelThisAction() {
             animator.ResetTrigger("attack");
             animator.SetTrigger("stopAttack");
+            mover.CancelThisAction();
             target = null;
         }
 

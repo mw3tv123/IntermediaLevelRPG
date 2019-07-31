@@ -13,6 +13,8 @@ namespace RPG.Movement {
         NavMeshAgent agent;     // Reference to this object's NavMeshAgent for navigating/moving object around.
         Animator animator;      // Reference to this object's Animator for renderring animation clip.
 
+        [SerializeField] float maxSpeed = 6f;
+
         void Start() {
             agent = GetComponent<NavMeshAgent>();
             animator = GetComponent<Animator>();
@@ -26,15 +28,16 @@ namespace RPG.Movement {
         }
 
         // Use to intercept between action (stop attack then move and via versal).
-        public void StartMovement(Vector3 point) {
+        public void StartMovement(Vector3 point, float speedFraction) {
             GetComponent<ActionScheduler>().StartAction(this);
-            MoveToPoint(point);
+            MoveToPoint(point, speedFraction);
         }
 
         // Move this object to an point in the world space.
-        public void MoveToPoint(Vector3 point) {
+        public void MoveToPoint(Vector3 point, float speedFraction) {
             agent.SetDestination(point);
             agent.isStopped = false;
+            agent.speed = maxSpeed * Mathf.Clamp01(speedFraction);
         }
 
         // Constainly update object animator overtime.
