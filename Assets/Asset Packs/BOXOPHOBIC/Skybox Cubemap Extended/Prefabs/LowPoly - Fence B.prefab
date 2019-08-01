@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4026302497858488}
   - component: {fileID: 33668776250296818}
   - component: {fileID: 23705309985758732}
+  - component: {fileID: 7657485382997847530}
   m_Layer: 0
   m_Name: LowPoly - Fence B
   m_TagString: Untagged
@@ -78,3 +79,19 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!208 &7657485382997847530
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1772052688877022}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.297, y: 0.28, z: 0.768}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: -0.025, z: 0.78900003}
+  m_TimeToStationary: 0.5
