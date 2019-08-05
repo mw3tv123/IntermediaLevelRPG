@@ -4,7 +4,9 @@ using UnityEngine;
 using UnityEngine.Playables;
 
 namespace RPG.Cinematic {
-    // Handle about what happen when cinematic take place.
+    /// <summary>
+    /// Handle about what happen when cinematic take place.
+    /// </summary>
     public class ControlRemover : MonoBehaviour {
         GameObject player;
 
@@ -15,7 +17,10 @@ namespace RPG.Cinematic {
             player = GameObject.FindWithTag("Player");
         }
 
-        // Disable all Player actions when cinematic take place.
+        /// <summary>
+        /// Disable all Player actions when cinematic take place.
+        /// </summary>
+        /// <param name="director"></param>
         void DisableControl( PlayableDirector director ) {
             player.GetComponent<ActionScheduler>().CancelCurrentAction();
             player.GetComponent<PlayerController>().enabled = false;

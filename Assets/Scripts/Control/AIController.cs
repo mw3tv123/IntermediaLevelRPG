@@ -5,9 +5,11 @@ using RPG.Movement;
 using System;
 
 namespace RPG.Control {
-    // This use to control Mods which automatic aim at Player.
+    /// <summary>
+    /// This use to control Mods which automatic aim at Player.
+    /// </summary>
     public class AIController : MonoBehaviour {
-        [SerializeField] readonly float viewRadius = 5f;
+        [SerializeField] float viewRadius = 5f;
         [SerializeField] float suspicionTime = 5f;
         [SerializeField] Vector3 guardPosition;
         [SerializeField] PatrolRoute patrolRoute;
@@ -49,7 +51,9 @@ namespace RPG.Control {
             UpdateTime();
         }
 
-        // Update internal timer.
+        /// <summary>
+        /// Update internal timer.
+        /// </summary>
         private void UpdateTime() {
             timeLastSawPlayer += Time.deltaTime;
             timeSinceArrivedAtWaypoint += Time.deltaTime;
@@ -61,13 +65,17 @@ namespace RPG.Control {
             timeLastSawPlayer = 0f;
         }
 
+        /// <summary>
+        /// Now Players are get out of our sight. We only move to Players's last known position,
+        /// stay there for few sec to... suspision(?), then get back to Patrol Mode.
+        /// </summary>
         private void SuspisionMode() {
-            // Now Players are get out of our sight. We only move to Players's last known position,
-            // stay there for few sec to... suspision(?), then get back to Patrol Mode.
             GetComponent<ActionScheduler>().CancelCurrentAction();
         }
 
-        // In patrol mode, this object is either stand guard at a specific position or moving in a patrol route if has one.
+        /// <summary>
+        /// In patrol mode, this object is either stand guard at a specific position or moving in a patrol route if has one.
+        /// </summary>
         private void PatrolMode() {
             // Cancel all attack or moving action.
             fighter.CancelThisAction();
@@ -91,7 +99,10 @@ namespace RPG.Control {
         }
 
         // TODO: Check logic again in this code.
-        // Get the nearest waypoint if this object have a patrol route attach to it.
+        /// <summary>
+        /// Get the nearest waypoint if this object have a patrol route attach to it.
+        /// </summary>
+        /// <param name="routes"></param>
         private void GetNearestWaypoint(Transform routes) {
             // Initialize a nearest waypoint and shortest distance.
             Vector3 nearest_point = routes.GetChild(0).position;
@@ -107,13 +118,17 @@ namespace RPG.Control {
             }
         }
 
-        // Check if Players are in this NPC's view radius.
+        /// <summary>
+        /// Check if Players are in this NPC's view radius.
+        /// </summary>
         private bool InAttackRange() {
             float distance_to_player = Vector3.Distance(player.transform.position, transform.position);
             return distance_to_player <= viewRadius;
         }
 
-        // Call automatic by Unity.
+        /// <summary>
+        /// Draw a wire sphere to demonstrate this object's field of view.
+        /// </summary>
         void OnDrawGizmosSelected() {
             Gizmos.color = Color.blue;                              // Set gizmos color.
             Gizmos.DrawWireSphere(transform.position, viewRadius);  // Draw a sphere which has its center point is this object.

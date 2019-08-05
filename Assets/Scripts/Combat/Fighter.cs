@@ -3,15 +3,22 @@ using RPG.Movement;
 using UnityEngine;
 
 namespace RPG.Combat {
-    // An Fighter class.
+    /// <summary>
+    /// Combat system for deal with move next to target, attack target and some other stuffs.
+    /// </summary>
     [RequireComponent(typeof(ActionScheduler))]
     public class Fighter : MonoBehaviour, IAction {
-        [SerializeField] float attackRange = 2f;
+        [Header("Attack Stats")]
         [SerializeField] float attackSpeed = 1f;
-        [SerializeField] float damage = 10f;
 
-        [SerializeField] Transform target;
+        [Header("Weapon Slot")]
+        [SerializeField] Transform rightHand = null;
+        [SerializeField] Transform leftHand = null;
+        [SerializeField] Weapon currentWeapon = null;
+        [SerializeField] Weapon defaultWeapon = null;
+        [SerializeField] string defaultWeaponName = "Unarmed";
 
+        Transform target;
         Animator animator;
         Mover mover;
         float attackCooldown;
@@ -20,6 +27,11 @@ namespace RPG.Combat {
             animator = GetComponent<Animator>();
             mover = GetComponent<Mover>();
             attackCooldown = attackSpeed;
+
+            Weapon weapon = Resources.Load<Weapon>(defaultWeaponName);
+
+            // Instantiate a weapon in player's hand.
+            EquipWeapon(weapon);
         }
 
         void Update() {
@@ -30,7 +42,7 @@ namespace RPG.Combat {
             // If our target is death...
             if (target.GetComponent<Health>().IsDeath) return;
             // If our target is far away from our attack range...
-            if (Vector3.Distance(target.position, transform.position) > attackRange)
+            if (Vector3.Distance(target.position, transform.position) > currentWeapon.GetAttackRange())
                 mover.MoveToPoint(target.position, 1f);
             // If target in attack range...
             else {
@@ -39,13 +51,27 @@ namespace RPG.Combat {
             }
         }
 
-        // Set our target to deal damage.
+        /// <summary>
+        /// Equip new weapon.
+        /// </summary>
+        /// <param name="weapon">New equipment.</param>
+        public void EquipWeapon(Weapon weapon) {
+            currentWeapon = weapon;
+            weapon.Spawn(rightHand, leftHand, animator);
+        }
+
+        /// <summary>
+        /// Start "attack target" mode.
+        /// </summary>
+        /// <param name="combatTarget"></param>
         public void Attack(GameObject combatTarget) {
             GetComponent<ActionScheduler>().StartAction(this);
             target = combatTarget.transform;
         }
 
-        // Cancel attack action currently take place.
+        /// <summary>
+        /// Stop all attack action.
+        /// </summary>
         public void CancelThisAction() {
             animator.ResetTrigger("attack");
             animator.SetTrigger("stopAttack");
@@ -53,7 +79,9 @@ namespace RPG.Combat {
             target = null;
         }
 
-        // Trigger attack animation in this object's Animator.
+        /// <summary>
+        /// Trigger attack animation in this object's Animator.
+        /// </summary>
         void AnimateAttack() {
             transform.LookAt(target.transform);
             // Sync attack animation with our object's attack speed.
@@ -64,10 +92,23 @@ namespace RPG.Combat {
             }
         }
 
-        // Animation Event
+        /// <summary>
+        /// Melee attack Animation Event.
+        /// </summary>
         void Hit() {
-            if (target != null)
-                target.GetComponent<Health>().TakeDamage(damage);
+            if ( target == null ) return;
+
+            if ( currentWeapon.HasProjectile() )
+                currentWeapon.LauchProjectile(rightHand, leftHand, target);
+            else
+                target.GetComponent<Health>().TakeDamage(currentWeapon.GetDamage());
+        }
+
+        /// <summary>
+        /// Range attack Animation Event.
+        /// </summary>
+        void Shoot() {
+            Hit();
         }
     }
 }

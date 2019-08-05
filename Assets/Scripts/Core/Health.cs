@@ -7,7 +7,7 @@ namespace RPG.Core {
     public class Health : MonoBehaviour {
         [Header("Heaths Settings")]
         [Range(50, 125), SerializeField] float maxHealth = 100f;
-        float currentHealth;
+        [SerializeField] float currentHealth;
 
         [Header("Status")]
         [SerializeField] bool isDeath = false;
@@ -21,7 +21,10 @@ namespace RPG.Core {
             currentHealth = maxHealth;
         }
 
-        // Make an object take damage.
+        /// <summary>
+        /// Make an object take damage.
+        /// </summary>
+        /// <param name="damage">Amount of health will reduce.</param>
         public void TakeDamage(float damage) {
             // When this object already dead, we do nothing.
             if (IsDeath) return;
@@ -31,8 +34,10 @@ namespace RPG.Core {
                 Die();
         }
 
-        // Active Death animation, remove collider to prevent future action on this object
-        // and set "death" to True to mark this is actually "dead".
+        /// <summary>
+        /// Active Death animation, remove collider to prevent future action on this object
+        /// and set "death" to True to mark this is actually "dead".
+        /// </summary>
         public void Die() {
             IsDeath = true;
             GetComponent<Animator>().SetTrigger("death");
