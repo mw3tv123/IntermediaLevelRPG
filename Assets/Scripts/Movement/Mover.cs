@@ -1,4 +1,5 @@
 ﻿using RPG.Core;
+using RPG.Saving;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -6,7 +7,7 @@ namespace RPG.Movement {
     /// <summary>
     /// Movement control class for move an object.
     /// </summary>
-    public class Mover : MonoBehaviour, IAction {
+    public class Mover : MonoBehaviour, IAction, ISaveable {
         /// <summary>
         /// An interface where it hold basic movement of all object (Player, NPC).
         /// </summary>
@@ -49,6 +50,16 @@ namespace RPG.Movement {
         // Cancel all movement action.
         public void CancelThisAction() {
             agent.isStopped = true;
+        }
+
+        public object CaptureState() {
+            return new SerializableVector3(transform.position);
+        }
+
+        public void RestoreState( object state ) {
+            SerializableVector3 position = (SerializableVector3)state;
+            transform.position = position.ToVector3();
+            GetComponent<ActionScheduler>().CancelCurrentAction();
         }
     }
 }

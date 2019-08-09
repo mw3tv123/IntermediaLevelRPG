@@ -27,11 +27,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackSpeed: 1
-  defaultWeapon: {fileID: 11400000, guid: 6a34bd2e40fd94c419772dd11c1e3b56, type: 2}
   rightHand: {fileID: 5184370663202960532}
   leftHand: {fileID: 5184370663202886806}
   currentWeapon: {fileID: 0}
-  target: {fileID: 0}
+  defaultWeapon: {fileID: 11400000, guid: 6a34bd2e40fd94c419772dd11c1e3b56, type: 2}
+  defaultWeaponName: Unarmed
 --- !u!114 &4432264137188468350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68,6 +68,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d612035db3dc12f4e9e7bd2fe011925c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  viewRadius: 5
   suspicionTime: 5
   guardPosition: {x: 0, y: 0, z: 0}
   patrolRoute: {fileID: 0}
@@ -153,15 +154,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: -5209760106245021793, guid: 2a6126768cd6ae04d82be0be97847827,
+        type: 3}
+      propertyPath: maxHealth
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 7595447953053411089, guid: 2a6126768cd6ae04d82be0be97847827,
         type: 3}
       propertyPath: m_Speed
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: -5209760106245021793, guid: 2a6126768cd6ae04d82be0be97847827,
+    - target: {fileID: 8542273563660351480, guid: 2a6126768cd6ae04d82be0be97847827,
         type: 3}
-      propertyPath: maxHealth
-      value: 50
+      propertyPath: uniqueIdentifier
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2a6126768cd6ae04d82be0be97847827, type: 3}
@@ -184,10 +190,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5182868949217416538}
     m_Modifications:
-    - target: {fileID: 133518, guid: 30cf93deff988e74e88a144bd2127c18, type: 3}
-      propertyPath: m_Name
-      value: Character_Knights_Soldier_01
-      objectReference: {fileID: 0}
     - target: {fileID: 417656, guid: 30cf93deff988e74e88a144bd2127c18, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -231,6 +233,10 @@ PrefabInstance:
     - target: {fileID: 417656, guid: 30cf93deff988e74e88a144bd2127c18, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 133518, guid: 30cf93deff988e74e88a144bd2127c18, type: 3}
+      propertyPath: m_Name
+      value: Character_Knights_Soldier_01
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30cf93deff988e74e88a144bd2127c18, type: 3}

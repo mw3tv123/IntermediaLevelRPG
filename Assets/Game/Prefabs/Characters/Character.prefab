@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 7595447953053411089}
   - component: {fileID: 5258756848214847646}
   - component: {fileID: 9151531611827084164}
-  - component: {fileID: -5209760106245021793}
   - component: {fileID: 5507268835218657289}
+  - component: {fileID: -5209760106245021793}
+  - component: {fileID: 8542273563660351480}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -114,20 +115,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &-5209760106245021793
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5258756848214847640}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f34693378b9f014f99bcb87e6aaf9e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 100
-  isDeath: 0
 --- !u!54 &5507268835218657289
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -144,3 +131,31 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-5209760106245021793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5258756848214847640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f34693378b9f014f99bcb87e6aaf9e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 0
+  isDeath: 0
+--- !u!114 &8542273563660351480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5258756848214847640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 104cb8db73c5c77429d1cd3f04f3c46b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uniqueIdentifier: fa50a40b-e4fe-4159-a3ed-b494c8a5d5e2

@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using RPG.Saving;
+using UnityEngine;
 
 namespace RPG.Core {
     /// <summary>
     /// This contain Health behavior of an object (Player, Monster...)
     /// </summary>
-    public class Health : MonoBehaviour {
+    public class Health : MonoBehaviour, ISaveable {
         [Header("Heaths Settings")]
         [Range(50, 125), SerializeField] float maxHealth = 100f;
         [SerializeField] float currentHealth;
@@ -48,6 +49,13 @@ namespace RPG.Core {
             // Remove this object Collider so that Player's RayCasting won't obstruct by this object collider.
             if (GetComponent<CapsuleCollider>() != null)
                 GetComponent<CapsuleCollider>().enabled = false;
+        }
+
+        public object CaptureState() { return currentHealth; }
+
+        public void RestoreState( object state ) {
+            currentHealth = (float)state;
+            if ( currentHealth <= 0 ) Die();
         }
     }
 }

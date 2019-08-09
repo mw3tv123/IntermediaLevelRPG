@@ -1,5 +1,6 @@
 ﻿using RPG.Core;
 using RPG.Movement;
+using RPG.Saving;
 using UnityEngine;
 
 namespace RPG.Combat {
@@ -7,7 +8,7 @@ namespace RPG.Combat {
     /// Combat system for deal with move next to target, attack target and some other stuffs.
     /// </summary>
     [RequireComponent(typeof(ActionScheduler))]
-    public class Fighter : MonoBehaviour, IAction {
+    public class Fighter : MonoBehaviour, IAction, ISaveable {
         [Header("Attack Stats")]
         [SerializeField] float attackSpeed = 1f;
 
@@ -16,22 +17,19 @@ namespace RPG.Combat {
         [SerializeField] Transform leftHand = null;
         [SerializeField] Weapon currentWeapon = null;
         [SerializeField] Weapon defaultWeapon = null;
-        [SerializeField] string defaultWeaponName = "Unarmed";
 
         Transform target;
         Animator animator;
         Mover mover;
         float attackCooldown;
 
-        void Start() {
+        void Awake() {
             animator = GetComponent<Animator>();
             mover = GetComponent<Mover>();
             attackCooldown = attackSpeed;
 
-            Weapon weapon = Resources.Load<Weapon>(defaultWeaponName);
-
-            // Instantiate a weapon in player's hand.
-            EquipWeapon(weapon);
+            // Instantiate default weapon in player's hand.
+            if ( currentWeapon == null ) EquipWeapon(defaultWeapon);
         }
 
         void Update() {
@@ -109,6 +107,16 @@ namespace RPG.Combat {
         /// </summary>
         void Shoot() {
             Hit();
+        }
+
+        public object CaptureState() {
+            return currentWeapon.name;
+        }
+
+        public void RestoreState( object state ) {
+            string weaponName = (string)state;
+            Weapon weapon = Resources.Load<Weapon>(weaponName);
+            EquipWeapon(weapon);
         }
     }
 }

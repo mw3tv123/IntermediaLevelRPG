@@ -934,6 +934,11 @@ PrefabInstance:
       propertyPath: defaultWeaponName
       value: Staff
       objectReference: {fileID: 0}
+    - target: {fileID: 8700820371462491064, guid: 21a2a47be1b6d8a4bb40753c57d15b83,
+        type: 3}
+      propertyPath: m_CameraDistance
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 8132929349612385822, guid: 21a2a47be1b6d8a4bb40753c57d15b83,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -943,11 +948,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 3.07
-      objectReference: {fileID: 0}
-    - target: {fileID: 8700820371462491064, guid: 21a2a47be1b6d8a4bb40753c57d15b83,
-        type: 3}
-      propertyPath: m_CameraDistance
-      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8175885640139292745, guid: 21a2a47be1b6d8a4bb40753c57d15b83,
         type: 3}
@@ -1387,6 +1387,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8762777994810970686, guid: a5017133b62381249811b147e9df3562,
+        type: 3}
+      propertyPath: uniqueIdentifier
+      value: b00c37f4-a671-4bee-a1ef-5f9bba9732ad
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a5017133b62381249811b147e9df3562, type: 3}
 --- !u!1001 &293014541
@@ -1605,6 +1610,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8796446874779854245, guid: c897b9073b612064fa04c8da69a751bc,
+        type: 3}
+      propertyPath: uniqueIdentifier
+      value: d425a703-aa18-440d-9c18-a09aac778093
       objectReference: {fileID: 0}
     - target: {fileID: 3015622061027155003, guid: c897b9073b612064fa04c8da69a751bc,
         type: 3}

@@ -6,11 +6,21 @@ namespace RPG.SceneManagement {
     public class Fader : MonoBehaviour {
         CanvasGroup canvasGroup;
 
-        void Start() {
+        void Awake() {
             canvasGroup = GetComponent<CanvasGroup>();
         }
 
-        // Ajust the Alpha value from 0 to 1 each frame (White out scene).
+        /// <summary>
+        /// Fadeout immediately (for load scene from file).
+        /// </summary>
+        public void FadeOutImmediate() {
+            canvasGroup.alpha = 1;
+        }
+
+        /// <summary>
+        /// Ajust the Alpha value from 0 to 1 each frame (White out scene).
+        /// </summary>
+        /// <param name="time">Fading time.</param>
         public IEnumerator FadeOut( float time ) {
             while (canvasGroup.alpha < 1 ) {
                 canvasGroup.alpha += Time.deltaTime / time;
@@ -18,7 +28,10 @@ namespace RPG.SceneManagement {
             }
         }
 
-        // Ajust the Alpha value from 0 to 1 each frame (bring back normal scene).
+        /// <summary>
+        /// Ajust the Alpha value from 0 to 1 each frame (bring back normal scene).
+        /// </summary>
+        /// <param name="time">Fading time.</param>
         public IEnumerator FadeIn( float time ) {
             while ( canvasGroup.alpha > 0 ) {
                 canvasGroup.alpha -= Time.deltaTime / time;
