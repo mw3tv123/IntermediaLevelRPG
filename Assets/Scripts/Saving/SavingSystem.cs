@@ -21,14 +21,13 @@ namespace RPG.Saving {
             // Get previous states...
             Dictionary<string, object> states = LoadFile(saveFile);
 
-            // A safe check for last scene index.
-            if ( states.ContainsKey("LastSceneBuildIndex") ) {
-                int buildIndex = (int)states["LastSceneBuildIndex"];
+            int buildIndex = SceneManager.GetActiveScene().buildIndex;
 
-                // Only load scene if privious scene difference from current scene...
-                if ( SceneManager.GetActiveScene().buildIndex != buildIndex )
-                    yield return SceneManager.LoadSceneAsync(buildIndex);
-            }
+            // A safe check for last scene index.
+            if ( states.ContainsKey("LastSceneBuildIndex") )
+                buildIndex = (int)states["LastSceneBuildIndex"];
+
+            yield return SceneManager.LoadSceneAsync(buildIndex);
 
             // Then load other stuffs.
             RestoreState(states);
@@ -50,6 +49,10 @@ namespace RPG.Saving {
         /// <param name="saveFile">File that data store in.</param>
         public void Load( string saveFile ) {
             RestoreState(LoadFile(saveFile));
+        }
+
+        public void Delete( string saveFile ) {
+            File.Delete(GetPathFromSaveFile(saveFile));
         }
 
         private Dictionary<string, object> LoadFile( string saveFile ) {

@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace RPG.Core {
     public class PersistentObjectSpawner : MonoBehaviour {

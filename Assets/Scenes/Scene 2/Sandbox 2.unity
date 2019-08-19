@@ -4603,6 +4603,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 486175218}
     m_Modifications:
+    - target: {fileID: 5120088956837937896, guid: 0f9f7a01f2b4f4e439d10c751075edd9,
+        type: 3}
+      propertyPath: m_Name
+      value: Terrain
+      objectReference: {fileID: 0}
     - target: {fileID: 5120088956837937897, guid: 0f9f7a01f2b4f4e439d10c751075edd9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4657,11 +4662,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5120088956837937896, guid: 0f9f7a01f2b4f4e439d10c751075edd9,
-        type: 3}
-      propertyPath: m_Name
-      value: Terrain
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f9f7a01f2b4f4e439d10c751075edd9, type: 3}

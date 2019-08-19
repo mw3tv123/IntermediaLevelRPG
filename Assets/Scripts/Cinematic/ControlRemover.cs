@@ -11,10 +11,19 @@ namespace RPG.Cinematic {
         GameObject player;
 
         void Start() {
+            player = GameObject.FindWithTag("Player");
+        }
+
+        void OnEnable() {
             // Registe an event delegate of PlayerDirector: when cinematic played and when it done.
             GetComponent<PlayableDirector>().played += DisableControl;
             GetComponent<PlayableDirector>().stopped += EnableControl;
-            player = GameObject.FindWithTag("Player");
+        }
+
+        void OnDisable() {
+            // Registe an event delegate of PlayerDirector: when cinematic played and when it done.
+            GetComponent<PlayableDirector>().played += DisableControl;
+            GetComponent<PlayableDirector>().stopped += EnableControl;
         }
 
         /// <summary>

@@ -1,6 +1,9 @@
-﻿using RPG.Core;
+﻿using System.Collections.Generic;
+using RPG.Core;
 using RPG.Movement;
+using RPG.Resources;
 using RPG.Saving;
+using RPG.Stats;
 using UnityEngine;
 
 namespace RPG.Combat {
@@ -8,7 +11,7 @@ namespace RPG.Combat {
     /// Combat system for deal with move next to target, attack target and some other stuffs.
     /// </summary>
     [RequireComponent(typeof(ActionScheduler))]
-    public class Fighter : MonoBehaviour, IAction, ISaveable {
+    public class Fighter : MonoBehaviour, IAction, ISaveable, IModifierProvider {
         [Header("Attack Stats")]
         [SerializeField] float attackSpeed = 1f;
 
@@ -26,10 +29,14 @@ namespace RPG.Combat {
         void Awake() {
             animator = GetComponent<Animator>();
             mover = GetComponent<Mover>();
+        }
+
+        void Start() {
             attackCooldown = attackSpeed;
 
             // Instantiate default weapon in player's hand.
-            if ( currentWeapon == null ) EquipWeapon(defaultWeapon);
+            if ( currentWeapon == null )
+                EquipWeapon(defaultWeapon);
         }
 
         void Update() {
@@ -96,10 +103,11 @@ namespace RPG.Combat {
         void Hit() {
             if ( target == null ) return;
 
+            float damage = GetComponent<BaseStats>().GetStat(Stat.Damage);
             if ( currentWeapon.HasProjectile() )
-                currentWeapon.LauchProjectile(rightHand, leftHand, target);
-            else
-                target.GetComponent<Health>().TakeDamage(currentWeapon.GetDamage());
+                currentWeapon.LauchProjectile(rightHand, leftHand, target, gameObject, damage);
+            else 
+                target.GetComponent<Health>().TakeDamage(gameObject, damage);
         }
 
         /// <summary>
@@ -115,8 +123,22 @@ namespace RPG.Combat {
 
         public void RestoreState( object state ) {
             string weaponName = (string)state;
-            Weapon weapon = Resources.Load<Weapon>(weaponName);
+            Weapon weapon = UnityEngine.Resources.Load<Weapon>(weaponName);
             EquipWeapon(weapon);
+        }
+
+        public Transform GetTarget() { return target; }
+
+        public IEnumerable<float> GetAdditiveModifier( Stat stat ) {
+            if ( stat == Stat.Damage ) {
+                yield return currentWeapon.GetDamage();
+            }
+        }
+
+        public IEnumerable<float> GetPercentageModifier( Stat stat ) {
+            if ( stat == Stat.Damage ) {
+                yield return currentWeapon.GetPercentageBonus();
+            }
         }
     }
 }

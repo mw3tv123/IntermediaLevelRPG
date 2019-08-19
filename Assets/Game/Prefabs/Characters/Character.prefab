@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 5507268835218657289}
   - component: {fileID: -5209760106245021793}
   - component: {fileID: 8542273563660351480}
+  - component: {fileID: 4948798670087389293}
+  - component: {fileID: 1724007647130188169}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -158,4 +160,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 104cb8db73c5c77429d1cd3f04f3c46b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uniqueIdentifier: fa50a40b-e4fe-4159-a3ed-b494c8a5d5e2
+  uniqueIdentifier: 
+--- !u!114 &4948798670087389293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5258756848214847640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72d9d80c767c1964796c29fc8f50cefd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startLevel: 1
+  characterClass: 1
+  progression: {fileID: 11400000, guid: c48b0b3a99487a444b8944f7b86f4954, type: 2}
+--- !u!114 &1724007647130188169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5258756848214847640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1e5232d51fa2c247ac6ad4ba813244f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  experiencePoint: 0

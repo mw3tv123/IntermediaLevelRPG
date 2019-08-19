@@ -67,6 +67,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4736687295801414005, guid: a5017133b62381249811b147e9df3562,
+        type: 3}
+      propertyPath: viewRadius
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3049290657594256288, guid: a5017133b62381249811b147e9df3562,
         type: 3}
       propertyPath: defaultWeapon
@@ -78,15 +83,15 @@ PrefabInstance:
       propertyPath: defaultWeaponName
       value: Bow
       objectReference: {fileID: 0}
-    - target: {fileID: 4736687295801414005, guid: a5017133b62381249811b147e9df3562,
-        type: 3}
-      propertyPath: viewRadius
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 5184370663216849094, guid: a5017133b62381249811b147e9df3562,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: bfbe2e8b331e2cc42be1591f949c0e41, type: 2}
+    - target: {fileID: 5456760274751202731, guid: a5017133b62381249811b147e9df3562,
+        type: 3}
+      propertyPath: characterClass
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a5017133b62381249811b147e9df3562, type: 3}

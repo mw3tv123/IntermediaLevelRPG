@@ -1,6 +1,4 @@
-﻿using System;
-using RPG.Core;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace RPG.Combat {
     [CreateAssetMenu(fileName = "Weapon", menuName = "Weapons/Make new weapon", order = 0)]
@@ -16,11 +14,13 @@ namespace RPG.Combat {
         [Header("Weapon's Stats")]
         [SerializeField] float attackRange = 2f;
         [SerializeField] float damage = 10f;
+        [SerializeField] float percentageBonus = 0;
 
         const string weaponName = "Weapon";
 
         public float GetAttackRange() { return attackRange; }
         public float GetDamage() { return damage; }
+        public float GetPercentageBonus() { return percentageBonus; }
 
         /// <summary>
         /// Spawn a weapon at the hand of the object and override current animator with this weapon animator.
@@ -83,9 +83,9 @@ namespace RPG.Combat {
         /// <param name="rightHand">Right hand's position.</param>
         /// <param name="leftHand">Left hand's position.</param>
         /// <param name="target">Target location.</param>
-        public void LauchProjectile( Transform rightHand, Transform leftHand, Transform target ) {
+        public void LauchProjectile( Transform rightHand, Transform leftHand, Transform target, GameObject instigator, float calculatedDamage ) {
             Projectile anProjectile = Instantiate(projectile, GetHandPosition(rightHand, leftHand).position, Quaternion.identity);
-            anProjectile.SetTarget(target, damage);
+            anProjectile.SetTarget(target, instigator, calculatedDamage);
         }
     }
 }

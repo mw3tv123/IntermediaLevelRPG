@@ -1,4 +1,4 @@
-﻿using RPG.Core;
+﻿using RPG.Resources;
 using UnityEngine;
 
 namespace RPG.Combat {
@@ -13,6 +13,7 @@ namespace RPG.Combat {
 
         Transform target = null;
         Health target_health;
+        GameObject instigator = null;
 
         void Start() {
             target_health = target.GetComponent<Health>();
@@ -47,9 +48,10 @@ namespace RPG.Combat {
         /// Set target of this projectile.
         /// </summary>
         /// <param name="target">For easy access target location.</param>
-        public void SetTarget(Transform target, float damage) {
+        public void SetTarget(Transform target, GameObject instigator, float damage) {
             this.target = target;
             this.damage = damage;
+            this.instigator = instigator;
 
             Destroy(gameObject, lifeTime);
         }
@@ -66,7 +68,7 @@ namespace RPG.Combat {
                 Instantiate(hitEffect, GetLocation(), transform.rotation);
 
             // Dealt damage to target.
-            target_health.TakeDamage(damage);
+            target_health.TakeDamage(instigator, damage);
 
             foreach ( GameObject toDestroy in destroyOnHit )
                 Destroy(toDestroy);

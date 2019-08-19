@@ -1,0 +1,110 @@
+﻿using System;
+using GameDevTV.Utils;
+using RPG.Core;
+using RPG.Saving;
+using RPG.Stats;
+using UnityEngine;
+
+namespace RPG.Resources {
+    /// <summary>
+    /// This contain Health behavior of an object (Player, Monster...)
+    /// </summary>
+    public class Health : MonoBehaviour, ISaveable {
+        LazyValue<float> maxHealth;
+        float currentHealth;
+
+        [Header("Status")]
+        [SerializeField] bool isDeath = false;
+
+        public bool IsDeath {
+            get { return isDeath; }
+            set { isDeath = value; }
+        }
+
+        void Awake() {
+            maxHealth = new LazyValue<float>(GetInitialHealth);
+        }
+
+        private float GetInitialHealth() {
+            return GetComponent<BaseStats>().GetStat(Stat.Health);
+        }
+
+        void Start() {
+            currentHealth = maxHealth.value;
+        }
+
+        void OnEnable() {
+            GetComponent<BaseStats>().OnLevelUp += CalculateHealth;
+        }
+
+        void OnDisable() {
+            GetComponent<BaseStats>().OnLevelUp -= CalculateHealth;
+        }
+
+        /// <summary>
+        /// Return current health in percentage (%).
+        /// </summary>
+        public float GetPercentage() { return currentHealth / maxHealth.value * 100; }
+
+        public float GetCurrentHP() { return currentHealth; }
+
+        public float GetMaxHP() { return maxHealth.value; }
+
+        /// <summary>
+        /// Make an object take damage.
+        /// </summary>
+        /// <param name="damage">Amount of health will reduce.</param>
+        public void TakeDamage( GameObject instigator, float damage ) {
+            // When this object already dead, we do nothing.
+            if (IsDeath) return;
+
+            currentHealth = Mathf.Clamp(currentHealth - damage, 0, maxHealth.value);
+            if (currentHealth == 0 ) {
+                Die();
+                AwardExperience(instigator);
+            }
+        }
+
+        private void AwardExperience( GameObject instigator ) {
+            Experience XP = instigator.GetComponent<Experience>();
+            if ( XP == null ) return;
+
+            XP.GainXP(GetComponent<BaseStats>().GetStat(Stat.ExperienceReward));
+        }
+
+        private void CalculateHealth() {
+            float currentHealthPercent = GetPercentage();
+
+            maxHealth.value = GetComponent<BaseStats>().GetStat(Stat.Health);
+            currentHealth = maxHealth.value * (currentHealthPercent / 100);
+        }
+
+        /// <summary>
+        /// Active Death animation, remove collider to prevent future action on this object
+        /// and set "death" to True to mark this is actually "dead".
+        /// </summary>
+        public void Die() {
+            IsDeath = true;
+            GetComponent<Animator>().SetTrigger("death");
+
+            // Disable control of this object on Death Event.
+            GetComponent<ActionScheduler>().CancelCurrentAction();
+
+            // Remove this object Collider so that Player's RayCasting won't obstruct by this object collider.
+            if (GetComponent<CapsuleCollider>() != null)
+                GetComponent<CapsuleCollider>().enabled = false;
+        }
+
+        public object CaptureState() {
+            float[] healthStatus = new float[] { currentHealth, maxHealth.value };
+            return healthStatus;
+        }
+
+        public void RestoreState( object state ) {
+            float[] healthStatus = (float[])state;
+            currentHealth = healthStatus[0];
+            maxHealth.value = healthStatus[1];
+            if ( currentHealth <= 0 ) Die();
+        }
+    }
+}

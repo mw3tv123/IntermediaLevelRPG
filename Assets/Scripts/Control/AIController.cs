@@ -2,7 +2,7 @@
 using RPG.Combat;
 using RPG.Core;
 using RPG.Movement;
-using System;
+using RPG.Resources;
 
 namespace RPG.Control {
     /// <summary>
@@ -23,9 +23,12 @@ namespace RPG.Control {
         float timeLastSawPlayer = Mathf.Infinity;
         float timeSinceArrivedAtWaypoint = Mathf.Infinity;
 
-        void Start() {
+        void Awake() {
             fighter = GetComponent<Fighter>();
             player = GameObject.FindGameObjectWithTag("Player");
+        }
+
+        void Start() {
             guardPosition = transform.position;
         }
 
