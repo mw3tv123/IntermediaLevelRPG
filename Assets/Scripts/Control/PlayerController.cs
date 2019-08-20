@@ -3,6 +3,7 @@ using RPG.Combat;
 using RPG.Movement;
 using RPG.Resources;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.EventSystems;
 
 namespace RPG.Control {
@@ -13,13 +14,6 @@ namespace RPG.Control {
         Mover mover;
         Fighter combat;
         Health health;
-
-        enum CursorType {
-            None,
-            Movement,
-            Combat,
-            UI,
-        }
 
         [Serializable]
         struct CursorMapping {
@@ -59,12 +53,12 @@ namespace RPG.Control {
         /// </summary>
         /// <returns></returns>
         private bool InteractWithComponent() {
-            RaycastHit[] hits = Physics.RaycastAll(GetRayToMouse());
+            RaycastHit[] hits = RaycastAllSorted();
             foreach ( RaycastHit hit in hits ) {
                 IRaycastable[] raycastables = hit.transform.GetComponents<IRaycastable>();
                 foreach ( IRaycastable raycastable in raycastables ) {
                     if ( raycastable.HandleRayCast(this) ) {
-                        SetCursor(CursorType.Combat);
+                        SetCursor(raycastable.GetCursorType());
                         return true;
                     }
                 }
@@ -87,15 +81,41 @@ namespace RPG.Control {
 
         // Casting a ray to the point where Player clicked and move to that point.
         private bool Move() {
-            if ( Physics.Raycast(GetRayToMouse(), out RaycastHit hit) ) {
+            if ( RaycastNavMesh( out Vector3 hit ) ) {
                 if ( Input.GetMouseButton(0) )
-                    mover.StartMovement(hit.point, runSpeedFraction);
+                    mover.StartMovement(hit, runSpeedFraction);
                 SetCursor(CursorType.Movement);
                 return true;
             }
             return false;
         }
 
+        /// <summary>
+        /// Cast a ray to terrain, then sample the closest NavMesh hit to the ray hit point.
+        /// </summary>
+        /// <param name="target">Position of the NavMesh which was caculated.</param>
+        /// <returns>True if Raycast Hit in allow distance, otherwise False.</returns>
+        private bool RaycastNavMesh( out Vector3 target ) {
+            // Default value for the position.
+            target = new Vector3();
+
+            // If Raycast Hit a terrain, objects,...
+            if ( Physics.Raycast(GetRayToMouse(), out RaycastHit hit) ) {
+                // If sample to the closest NavMesh in the allow distance...
+                if ( NavMesh.SamplePosition(hit.point, out NavMeshHit navMeshHit, 1f, NavMesh.AllAreas) ) {
+                    target = navMeshHit.position;
+                    return true;
+                }
+            }
+
+            // If not hit a raycast or not in allow distance...
+            return false;
+        }
+
+        /// <summary>
+        /// Set texture for the cursor.
+        /// </summary>
+        /// <param name="type">Type of the cursor (see CursorType enum).</param>
         private void SetCursor( CursorType type ) {
             CursorMapping mapping = GetCursorMapping(type);
             Cursor.SetCursor(mapping.texture, mapping.hotspot, CursorMode.Auto);
@@ -119,6 +139,22 @@ namespace RPG.Control {
         /// </summary>
         private static Ray GetRayToMouse() {
             return Camera.main.ScreenPointToRay(Input.mousePosition);
+        }
+
+        /// <summary>
+        /// Get all objects hit by Raycast, build an array distances and then sort the hits.
+        /// </summary>
+        /// <returns>An ordered list of hit objects.</returns>
+        private RaycastHit[] RaycastAllSorted() {
+            RaycastHit[] hits = Physics.RaycastAll(GetRayToMouse());
+
+            float[] distances = new float[hits.Length];
+            // Build up distances array.
+            for ( int i = 0; i < distances.Length; i++ )
+                distances[i] = hits[i].distance;
+
+            Array.Sort(distances, hits);
+            return hits;
         }
     }
 }

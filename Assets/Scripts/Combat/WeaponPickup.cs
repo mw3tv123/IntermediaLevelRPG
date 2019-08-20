@@ -33,6 +33,10 @@ namespace RPG.Combat {
                 child.gameObject.SetActive(isShow);
         }
 
+        public CursorType GetCursorType() {
+            return CursorType.Pickup;
+        }
+
         public bool HandleRayCast( PlayerController player ) {
             if ( Input.GetMouseButtonDown(0) ) {
                 Pickup(player.GetComponent<Fighter>());
