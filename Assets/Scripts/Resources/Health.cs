@@ -11,7 +11,7 @@ namespace RPG.Resources {
     /// </summary>
     public class Health : MonoBehaviour, ISaveable {
         LazyValue<float> maxHealth;
-        float currentHealth;
+        LazyValue<float> currentHealth;
 
         [Header("Status")]
         [SerializeField] bool isDeath = false;
@@ -23,14 +23,11 @@ namespace RPG.Resources {
 
         void Awake() {
             maxHealth = new LazyValue<float>(GetInitialHealth);
+            currentHealth = new LazyValue<float>(() => maxHealth.value);
         }
 
         private float GetInitialHealth() {
             return GetComponent<BaseStats>().GetStat(Stat.Health);
-        }
-
-        void Start() {
-            currentHealth = maxHealth.value;
         }
 
         void OnEnable() {
@@ -44,9 +41,9 @@ namespace RPG.Resources {
         /// <summary>
         /// Return current health in percentage (%).
         /// </summary>
-        public float GetPercentage() { return currentHealth / maxHealth.value * 100; }
+        public float GetPercentage() { return currentHealth.value / maxHealth.value * 100; }
 
-        public float GetCurrentHP() { return currentHealth; }
+        public float GetCurrentHP() { return currentHealth.value; }
 
         public float GetMaxHP() { return maxHealth.value; }
 
@@ -58,8 +55,8 @@ namespace RPG.Resources {
             // When this object already dead, we do nothing.
             if (IsDeath) return;
 
-            currentHealth = Mathf.Clamp(currentHealth - damage, 0, maxHealth.value);
-            if (currentHealth == 0 ) {
+            currentHealth.value = Mathf.Clamp(currentHealth.value - damage, 0, maxHealth.value);
+            if (currentHealth.value == 0 ) {
                 Die();
                 AwardExperience(instigator);
             }
@@ -76,7 +73,7 @@ namespace RPG.Resources {
             float currentHealthPercent = GetPercentage();
 
             maxHealth.value = GetComponent<BaseStats>().GetStat(Stat.Health);
-            currentHealth = maxHealth.value * (currentHealthPercent / 100);
+            currentHealth.value = maxHealth.value * (currentHealthPercent / 100);
         }
 
         /// <summary>
@@ -96,15 +93,15 @@ namespace RPG.Resources {
         }
 
         public object CaptureState() {
-            float[] healthStatus = new float[] { currentHealth, maxHealth.value };
+            float[] healthStatus = new float[] { currentHealth.value, maxHealth.value };
             return healthStatus;
         }
 
         public void RestoreState( object state ) {
             float[] healthStatus = (float[])state;
-            currentHealth = healthStatus[0];
+            currentHealth.value = healthStatus[0];
             maxHealth.value = healthStatus[1];
-            if ( currentHealth <= 0 ) Die();
+            if ( currentHealth.value <= 0 ) Die();
         }
     }
 }

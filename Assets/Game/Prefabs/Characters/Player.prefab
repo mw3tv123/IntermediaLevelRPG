@@ -54,7 +54,6 @@ MonoBehaviour:
   attackSpeed: 1
   rightHand: {fileID: 3390267735624701680}
   leftHand: {fileID: 3390267735624775320}
-  currentWeapon: {fileID: 0}
   defaultWeapon: {fileID: 11400000, guid: 6a34bd2e40fd94c419772dd11c1e3b56, type: 2}
 --- !u!114 &142445447935705883
 MonoBehaviour:
@@ -69,6 +68,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   runSpeedFraction: 1
+  cursorMappings:
+  - type: 0
+    texture: {fileID: 2800000, guid: 21628736160fcc9488493401da3ef621, type: 3}
+    hotspot: {x: 0, y: 0}
+  - type: 1
+    texture: {fileID: 2800000, guid: 1e1ecf843f705b34ab304dff88b037c1, type: 3}
+    hotspot: {x: 0, y: 0}
+  - type: 2
+    texture: {fileID: 2800000, guid: 2d18e23e3ce249b4489b8bcdd02d3f48, type: 3}
+    hotspot: {x: 0, y: 0}
+  - type: 3
+    texture: {fileID: 2800000, guid: 2e71a8202d3b4a3448ec85ced5a40265, type: 3}
+    hotspot: {x: 0, y: 0}
 --- !u!1001 &3390267735625162612
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -76,6 +88,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1087925175123517477}
     m_Modifications:
+    - target: {fileID: 188290, guid: 679ff741e12a7e740819ede24a7000b7, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 183634, guid: 679ff741e12a7e740819ede24a7000b7, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 435482, guid: 679ff741e12a7e740819ede24a7000b7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -137,14 +157,6 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 127938, guid: 679ff741e12a7e740819ede24a7000b7, type: 3}
-      propertyPath: m_Layer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 188290, guid: 679ff741e12a7e740819ede24a7000b7, type: 3}
-      propertyPath: m_Layer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 183634, guid: 679ff741e12a7e740819ede24a7000b7, type: 3}
       propertyPath: m_Layer
       value: 2
       objectReference: {fileID: 0}

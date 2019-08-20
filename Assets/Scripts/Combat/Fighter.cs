@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using GameDevTV.Utils;
 using RPG.Core;
 using RPG.Movement;
 using RPG.Resources;
@@ -18,25 +20,30 @@ namespace RPG.Combat {
         [Header("Weapon Slot")]
         [SerializeField] Transform rightHand = null;
         [SerializeField] Transform leftHand = null;
-        [SerializeField] Weapon currentWeapon = null;
         [SerializeField] Weapon defaultWeapon = null;
 
+        LazyValue<Weapon> currentWeapon;
         Transform target;
         Animator animator;
         Mover mover;
         float attackCooldown;
 
         void Awake() {
+            // Instantiate default weapon in player's hand.
+            currentWeapon = new LazyValue<Weapon>(SetDefaultWeapon);
+
             animator = GetComponent<Animator>();
             mover = GetComponent<Mover>();
         }
 
-        void Start() {
-            attackCooldown = attackSpeed;
+        private Weapon SetDefaultWeapon() {
+            SpawnOutWeapon(defaultWeapon);
+            return defaultWeapon;
+        }
 
-            // Instantiate default weapon in player's hand.
-            if ( currentWeapon == null )
-                EquipWeapon(defaultWeapon);
+        void Start() {
+            currentWeapon.ForceInit();
+            attackCooldown = attackSpeed;
         }
 
         void Update() {
@@ -47,7 +54,7 @@ namespace RPG.Combat {
             // If our target is death...
             if (target.GetComponent<Health>().IsDeath) return;
             // If our target is far away from our attack range...
-            if (Vector3.Distance(target.position, transform.position) > currentWeapon.GetAttackRange())
+            if (Vector3.Distance(target.position, transform.position) > currentWeapon.value.GetAttackRange())
                 mover.MoveToPoint(target.position, 1f);
             // If target in attack range...
             else {
@@ -61,7 +68,11 @@ namespace RPG.Combat {
         /// </summary>
         /// <param name="weapon">New equipment.</param>
         public void EquipWeapon(Weapon weapon) {
-            currentWeapon = weapon;
+            currentWeapon.value = weapon;
+            SpawnOutWeapon(weapon);
+        }
+
+        private void SpawnOutWeapon( Weapon weapon ) {
             weapon.Spawn(rightHand, leftHand, animator);
         }
 
@@ -104,8 +115,8 @@ namespace RPG.Combat {
             if ( target == null ) return;
 
             float damage = GetComponent<BaseStats>().GetStat(Stat.Damage);
-            if ( currentWeapon.HasProjectile() )
-                currentWeapon.LauchProjectile(rightHand, leftHand, target, gameObject, damage);
+            if ( currentWeapon.value.HasProjectile() )
+                currentWeapon.value.LauchProjectile(rightHand, leftHand, target, gameObject, damage);
             else 
                 target.GetComponent<Health>().TakeDamage(gameObject, damage);
         }
@@ -118,7 +129,7 @@ namespace RPG.Combat {
         }
 
         public object CaptureState() {
-            return currentWeapon.name;
+            return currentWeapon.value.name;
         }
 
         public void RestoreState( object state ) {
@@ -131,13 +142,13 @@ namespace RPG.Combat {
 
         public IEnumerable<float> GetAdditiveModifier( Stat stat ) {
             if ( stat == Stat.Damage ) {
-                yield return currentWeapon.GetDamage();
+                yield return currentWeapon.value.GetDamage();
             }
         }
 
         public IEnumerable<float> GetPercentageModifier( Stat stat ) {
             if ( stat == Stat.Damage ) {
-                yield return currentWeapon.GetPercentageBonus();
+                yield return currentWeapon.value.GetPercentageBonus();
             }
         }
     }

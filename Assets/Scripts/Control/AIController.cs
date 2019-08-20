@@ -3,6 +3,7 @@ using RPG.Combat;
 using RPG.Core;
 using RPG.Movement;
 using RPG.Resources;
+using GameDevTV.Utils;
 
 namespace RPG.Control {
     /// <summary>
@@ -11,7 +12,6 @@ namespace RPG.Control {
     public class AIController : MonoBehaviour {
         [SerializeField] float viewRadius = 5f;
         [SerializeField] float suspicionTime = 5f;
-        [SerializeField] Vector3 guardPosition;
         [SerializeField] PatrolRoute patrolRoute;
         [SerializeField] int lastWaypointIndex = 0;
 
@@ -19,6 +19,7 @@ namespace RPG.Control {
 
         Fighter fighter;
         GameObject player;
+        LazyValue<Vector3> guardPosition;
 
         float timeLastSawPlayer = Mathf.Infinity;
         float timeSinceArrivedAtWaypoint = Mathf.Infinity;
@@ -26,10 +27,13 @@ namespace RPG.Control {
         void Awake() {
             fighter = GetComponent<Fighter>();
             player = GameObject.FindGameObjectWithTag("Player");
+
+            // Initiate default guard position for guard.
+            guardPosition = new LazyValue<Vector3>( () => transform.position );
         }
 
         void Start() {
-            guardPosition = transform.position;
+            guardPosition.ForceInit();
         }
 
         void Update() {
@@ -82,7 +86,7 @@ namespace RPG.Control {
         private void PatrolMode() {
             // Cancel all attack or moving action.
             fighter.CancelThisAction();
-            Vector3 nextPosition = guardPosition;
+            Vector3 nextPosition = guardPosition.value;
 
             // If this object has a patrol route...
             if (patrolRoute != null) {
