@@ -23,6 +23,7 @@ namespace RPG.Control {
         }
 
         [SerializeField] CursorMapping[] cursorMappings = null;
+        [SerializeField] float maxNavPathLength = 20f;
 
         // Start is called before the first frame update
         void Start() {
@@ -104,7 +105,9 @@ namespace RPG.Control {
                 // If sample to the closest NavMesh in the allow distance...
                 if ( NavMesh.SamplePosition(hit.point, out NavMeshHit navMeshHit, 1f, NavMesh.AllAreas) ) {
                     target = navMeshHit.position;
-                    return true;
+
+                    // If the path to the NavMesh position in allow distance...
+                    if ( IsPathInAllowDistance(target) ) return true;
                 }
             }
 
@@ -155,6 +158,46 @@ namespace RPG.Control {
 
             Array.Sort(distances, hits);
             return hits;
+        }
+
+        /// <summary>
+        /// Calculate path from current position to the target NavMesh point.
+        /// </summary>
+        /// <param name="target">Position of the target NavMesh.</param>
+        /// <returns>False if:
+        /// - No path to the target NavMesh point (*1, *2);
+        /// - Distances to target NavMesh point greater than allow distances.
+        /// Otherwise return True.</returns>
+        private bool IsPathInAllowDistance( Vector3 target) {
+            NavMeshPath path = new NavMeshPath();
+            bool hasPath = NavMesh.CalculatePath(transform.position, target, NavMesh.AllAreas, path);
+
+            // *1 No path to target.
+            if ( !hasPath ) return false;
+            // *2 Path to target incompleted.
+            if ( path.status != NavMeshPathStatus.PathComplete ) return false;
+            // Distance to to target greater than maximum distances allowed.
+            if ( GetPathLength(path) > maxNavPathLength ) return false;
+
+            return true;
+        }
+
+        /// <summary>
+        /// Get the total distances  of all corner between current position and the target NavMesh position.
+        /// </summary>
+        /// <param name="path">Target NavMesh position.</param>
+        /// <returns>(<b>float</b>)Total distances.</returns>
+        private float GetPathLength( NavMeshPath path ) {
+            float distance = 0;
+
+            // If path have fewer corners than 2...
+            if ( path.corners.Length < 2 ) return distance;
+
+            // Calculate distances between all corners...
+            for ( int i = 0; i < path.corners.Length - 1; i++ )
+                distance += Vector3.Distance(path.corners[i], path.corners[i + 1]);
+
+            return distance;
         }
     }
 }
