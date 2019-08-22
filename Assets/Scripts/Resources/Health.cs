@@ -1,9 +1,10 @@
-﻿using System;
-using GameDevTV.Utils;
+﻿using GameDevTV.Utils;
 using RPG.Core;
 using RPG.Saving;
 using RPG.Stats;
+using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace RPG.Resources {
     /// <summary>
@@ -13,8 +14,17 @@ namespace RPG.Resources {
         LazyValue<float> maxHealth;
         LazyValue<float> currentHealth;
 
-        [Header("Status")]
-        [SerializeField] bool isDeath = false;
+        [Header("Status"), SerializeField] bool isDeath = false;
+
+        [Header("Events List"), SerializeField] TakeDamageEvent takeDamage;
+
+        /// <summary>
+        /// Because SerializeField don't allow to use the generic UnityEvent,
+        /// so we create a subclass with inherit generic type UnityEvent,
+        /// and then mark this subclass to be Serializable by Unity.
+        /// </summary>
+        [Serializable]
+        public class TakeDamageEvent : UnityEvent<float> { }
 
         public bool IsDeath {
             get { return isDeath; }
@@ -56,6 +66,10 @@ namespace RPG.Resources {
             if (IsDeath) return;
 
             currentHealth.value = Mathf.Clamp(currentHealth.value - damage, 0, maxHealth.value);
+
+            // Trigger spawn damage text.
+            takeDamage.Invoke(damage);
+
             if (currentHealth.value == 0 ) {
                 Die();
                 AwardExperience(instigator);
