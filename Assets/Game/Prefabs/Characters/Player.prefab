@@ -468,36 +468,6 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: -5209760106245021793, guid: 2a6126768cd6ae04d82be0be97847827,
-        type: 3}
-      propertyPath: takeDamage.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -5209760106245021793, guid: 2a6126768cd6ae04d82be0be97847827,
-        type: 3}
-      propertyPath: takeDamage.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -5209760106245021793, guid: 2a6126768cd6ae04d82be0be97847827,
-        type: 3}
-      propertyPath: takeDamage.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SpawnDamageText
-      objectReference: {fileID: 0}
-    - target: {fileID: -5209760106245021793, guid: 2a6126768cd6ae04d82be0be97847827,
-        type: 3}
-      propertyPath: takeDamage.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: -5209760106245021793, guid: 2a6126768cd6ae04d82be0be97847827,
-        type: 3}
-      propertyPath: takeDamage.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_FloatArgument
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: -5209760106245021793, guid: 2a6126768cd6ae04d82be0be97847827,
-        type: 3}
-      propertyPath: takeDamage.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4948798670087389293, guid: 2a6126768cd6ae04d82be0be97847827,
         type: 3}
       propertyPath: characterClass

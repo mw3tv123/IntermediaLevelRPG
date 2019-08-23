@@ -6,7 +6,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace RPG.Resources {
+namespace RPG.Attributes {
     /// <summary>
     /// This contain Health behavior of an object (Player, Monster...)
     /// </summary>
