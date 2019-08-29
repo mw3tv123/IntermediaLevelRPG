@@ -206,6 +206,11 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5507268835218657289, guid: 2a6126768cd6ae04d82be0be97847827,
+        type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1724007647130188169, guid: 2a6126768cd6ae04d82be0be97847827, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 2a6126768cd6ae04d82be0be97847827, type: 3}
