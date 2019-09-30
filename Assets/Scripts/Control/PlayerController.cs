@@ -102,6 +102,7 @@ namespace RPG.Control {
 
             // If Raycast Hit a terrain, objects,...
             if ( Physics.Raycast(GetRayToMouse(), out RaycastHit hit) ) {
+                Debug.Log(hit.collider.name);
                 // If sample to the closest NavMesh in the allow distance...
                 if ( NavMesh.SamplePosition(hit.point, out NavMeshHit navMeshHit, 1f, NavMesh.AllAreas) ) {
                     target = navMeshHit.position;
