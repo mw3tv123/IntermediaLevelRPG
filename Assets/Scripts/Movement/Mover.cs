@@ -1,11 +1,12 @@
-﻿using UnityEngine;
+﻿using RPG.Core;
+using UnityEngine;
 using UnityEngine.AI;
 
-namespace Movement {
-    public class Mover : MonoBehaviour {
-        [SerializeField]
-        private Transform target;
-
+namespace RPG.Movement {
+    /// <summary>
+    /// Manage basic an object basic movement like idle, run, walk, jump, climb,...
+    /// </summary>
+    public class Mover : MonoBehaviour, IAction {
         private NavMeshAgent agent;
 
         private void Start ( ) {
@@ -14,23 +15,24 @@ namespace Movement {
 
         // Update is called once per frame
         private void Update ( ) {
-            if ( Input.GetMouseButton(0) ) {
-                MoveToCursor();
-            }
             UpdateAnimator();
         }
 
-        private void MoveToCursor ( ) {
-            // Get a ray from camera to mouse point.
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            // Casting the ray to a hit.
-            bool isHit = Physics.Raycast(ray, out RaycastHit hit);
-            if ( isHit ) {  // If the ray hit something...
-                agent.destination = hit.point;
-            }
+        /// <summary>
+        /// Move to destination point.
+        /// </summary>
+        /// <param name="destination">Point where this object will move to.</param>
+        public void MoveTo ( Vector3 destination ) {
+            GetComponent<ActionScheduler>().StartAction(this);
+            agent.isStopped = false;
+            agent.destination = destination;
         }
 
+        public void Cancel ( ) => agent.isStopped = true;
+
+        /// <summary>
+        /// Animate this object's animation.
+        /// </summary>
         private void UpdateAnimator ( ) {
             Vector3 velocity = agent.velocity;
             Vector3 localVelocity = transform.InverseTransformDirection(velocity);
