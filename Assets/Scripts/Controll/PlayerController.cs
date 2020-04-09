@@ -1,4 +1,5 @@
 using RPG.Combat;
+using RPG.Core;
 using RPG.Movement;
 using UnityEngine;
 
@@ -7,10 +8,18 @@ namespace RPG.Control {
     /// Manage player basic control.
     /// </summary>
     public class PlayerController : MonoBehaviour {
-        Ray lastRay;
+        private Ray lastRay;
+        private Fighter fighter;
+        private Health self;
+
+        private void Start ( ) {
+            fighter = GetComponent<Fighter>();
+            self = GetComponent<Health>();
+        }
 
         private void Update ( ) {
-            DebugRayCast(lastRay);
+            DebugRayCast(lastRay);          // Debug purpose.
+            if ( self.IsDead ) return;      // If player dead, player can't do anything.
             if ( Combatable() ) return;
             if ( Moveable() ) return;
         }
@@ -24,11 +33,11 @@ namespace RPG.Control {
             foreach ( RaycastHit hit in rays ) {
                 CombatTarget target = hit.transform.GetComponent<CombatTarget>();
                 if ( target != null ) {
-                    if ( Input.GetMouseButtonDown(0) ) {
+                    if ( Input.GetMouseButton(0) ) {
                         lastRay = GetRay();
-                        GetComponent<Fighter>().Target = target.GetComponent<Health>();
+                        fighter.StartFightAction(target.GetComponent<Health>());
                     }
-                    if ( GetComponent<Fighter>().CanNotAttack ) continue;
+                    if ( fighter.CanNotAttack ) continue;
                     return true;
                 }
             }
@@ -45,7 +54,7 @@ namespace RPG.Control {
             if ( IsHit ) {
                 if ( Input.GetMouseButton(0) ) {
                     lastRay = ray;
-                    GetComponent<Mover>().MoveTo(hit.point);
+                    GetComponent<Mover>().StartMoveAction(hit.point);
                 }
                 return true;
             }

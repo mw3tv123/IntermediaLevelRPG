@@ -19,11 +19,19 @@ namespace RPG.Movement {
         }
 
         /// <summary>
+        /// Start and register move action to Action Scheduler.
+        /// </summary>
+        /// <param name="destination">Point where this object will move to.</param>
+        public void StartMoveAction ( Vector3 destination ) {
+            GetComponent<ActionScheduler>().StartAction(this);
+            MoveTo(destination);
+        }
+
+        /// <summary>
         /// Move to destination point.
         /// </summary>
         /// <param name="destination">Point where this object will move to.</param>
         public void MoveTo ( Vector3 destination ) {
-            GetComponent<ActionScheduler>().StartAction(this);
             agent.isStopped = false;
             agent.destination = destination;
         }

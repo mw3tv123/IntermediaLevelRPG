@@ -19,27 +19,27 @@ namespace RPG.Combat {
         #endregion
 
         #region Properties Checker
-        private float timeSinceLastAttack = 0f;
+        private float timeSinceLastAttack = Mathf.Infinity;
 
         // Determine if this object's attack is cooldown or not.
         private bool IsAttackCooledDown => timeSinceLastAttack > attackCooldownTime;
 
         // Determine if distance from this object to target is in attack range or not.
-        private bool IsInAttackRange => Vector3.Distance(transform.position, Target.transform.position) < attackRange;
+        private bool IsInAttackRange => Vector3.Distance(transform.position, target.transform.position) < attackRange;
 
         /// <summary>
         /// Determise if the target can be attacked or not.
         /// </summary>
-        public bool CanNotAttack => Target is null || Target.IsDead;
+        public bool CanNotAttack => target is null || target.IsDead;
         #endregion
 
         private Animator animator;
-
-        [SerializeField]
-        public Health Target { get; set; }
+        private Mover mover;
+        private Health target;
 
         private void Start ( ) {
             animator = GetComponent<Animator>();
+            mover = GetComponent<Mover>();
         }
 
         private void Update ( ) {
@@ -50,14 +50,23 @@ namespace RPG.Combat {
 
             // Attack if target is in range.
             if ( IsInAttackRange ) {
-                GetComponent<ActionScheduler>().StartAction(this);
-                transform.LookAt(Target.transform);
+                mover.Cancel();
+                transform.LookAt(target.transform);
                 Attack();
             }
             // Move close to target.
             else {
-                GetComponent<Mover>().MoveTo(Target.transform.position);
+                mover.MoveTo(target.transform.position);
             }
+        }
+
+        /// <summary>
+        /// Start and register fight action to Action Scheduler.
+        /// </summary>
+        /// <param name="target">The target of this object.</param>
+        public void StartFightAction ( Health target ) {
+            GetComponent<ActionScheduler>().StartAction(this);
+            this.target = target;
         }
 
         /// <summary>
@@ -82,12 +91,14 @@ namespace RPG.Combat {
         /// Attack animation event occur when the hand reach it point.
         /// </summary>
         private void Hit ( ) {
-            if ( Target != null )
-                Target.TakeDamage(attackDamage);
+            if ( target != null ) {
+                target.TakeDamage(attackDamage);
+                // Target.GetComponent<Animator>().SetTrigger("GetHit");
+            }
         }
 
         public void Cancel ( ) {
-            Target = null;
+            target = null;
             animator.ResetTrigger("Attack");
             animator.SetTrigger("StopAttack");
         }

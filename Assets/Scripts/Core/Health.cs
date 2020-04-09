@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace RPG.Combat {
+namespace RPG.Core {
     /// <summary>
     /// Manage an object's health status like Health Point [HP], Magic Point [MP], Stamina Point [SP],...
     /// </summary>
@@ -19,12 +19,15 @@ namespace RPG.Combat {
                 healthPoint = Mathf.Max(healthPoint - damage, 0);
                 if ( IsDead ) {
                     GetComponent<Animator>().SetTrigger("Die");
-                    // Prototype, for using with rag-doll only.
+                    GetComponent<NavMeshAgent>().enabled = false;
+                    GetComponent<ActionScheduler>().CancelCurrentAction();
+                    #region  Prototype, for using with rag-doll only.
                     if ( UseRagDollPhysic ) {
                         GetComponent<Animator>().enabled = false;
                         GetComponent<NavMeshAgent>().enabled = false;
                         GetComponent<CapsuleCollider>().enabled = false;
                     }
+                    #endregion
                 }
             }
         }
